@@ -39,6 +39,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public Optional<User> find(Long id) {
+        System.out.println(id);
         return Optional.ofNullable(entityManager.find(User.class, id));
     }
 

@@ -22,7 +22,7 @@ public class EditController {
 
     @PostMapping(value = "/admin/edit")
     public String updateUser(@ModelAttribute("userData") UserData userData) {
-        System.out.println(userData.getEmail()+"aa a a a a a a a a a a a  a a a a a");
+        System.out.println(userData.getId()+"aa a a a a a a a a a a a  a a a a a");
         User user = userService.getById(userData.getId());
         Set<Role> roles = new HashSet<>();
         for (String role:userData.getRoles()

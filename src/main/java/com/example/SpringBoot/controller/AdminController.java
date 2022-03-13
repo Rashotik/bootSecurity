@@ -3,6 +3,7 @@ package com.example.SpringBoot.controller;
 import com.example.SpringBoot.model.UserData;
 import com.example.SpringBoot.model.Role;
 import com.example.SpringBoot.model.User;
+import com.example.SpringBoot.repository.RoleRepository;
 import com.example.SpringBoot.service.RoleService;
 import com.example.SpringBoot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,8 +23,17 @@ public class AdminController {
     private RoleService roleService;
 
     @GetMapping("/admin")
-    public String userList(Model model) {
+    public String userList(Model model, Principal principal) {
+        User user = userService.getByName(principal.getName());
         model.addAttribute("allUsers", userService.getAll());
+        model.addAttribute("user", user);
+        model.addAttribute("roleList", null);
+        model.addAttribute("userData", new UserData(
+                user.getId(),
+                user.getName(),
+                user.getLastName(),
+                user.getPassword(),
+                user.getEmail()));
         return "admin";
     }
 
@@ -47,25 +58,35 @@ public class AdminController {
         model.addAttribute("user", user);
         model.addAttribute("roleList", roleService.getAll());
         model.addAttribute("userData", new UserData(
+                user.getId(),
                 user.getName(),
                 user.getLastName(),
                 user.getPassword(),
                 user.getEmail()));
-        System.out.println(user.getEmail());
+        System.out.println(user.getEmail()+"       asdawdasdwawdawdawawc");
         return "form";
     }
 
     @PostMapping(value = "/admin/new")
-    public String saveUser(@ModelAttribute("user") User user) {
+    public String saveUser(@ModelAttribute("userData") UserData userData) {
+        User user = new User();
+        user.setName(userData.getName());
+        user.setLastName(userData.getLastName());
+        user.setEmail(userData.getEmail());
+        user.setPassword(userData.getPassword());
+
         Set<Role> roles = new HashSet<>();
-        roles.add(new Role(1L, "ROLE_USER"));
+        if(userData.getRoles() != null){
+            for (String role : userData.getRoles()) {
+                roles.add(new Role(roleService.getByName(role).get(0).getId(), role));
+            }
+        }else{
+            roles.add(new Role(1L,"ROLE_USER"));
+        }
+
         user.setRoles(roles);
         userService.save(user);
         return "redirect:/admin";
     }
-    @GetMapping("/admin/delete")
-    public String deleteUser(@RequestParam(value = "id", required = true, defaultValue = "") long id) {
-        userService.deleteById(id);
-        return "redirect:/admin";
-    }
+
 }
