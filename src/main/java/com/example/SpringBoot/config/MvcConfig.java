@@ -1,4 +1,4 @@
-package com.example.PP_311_SpringBoot.config;
+package com.example.SpringBoot.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;

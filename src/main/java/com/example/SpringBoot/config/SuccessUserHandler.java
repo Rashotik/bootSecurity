@@ -1,4 +1,4 @@
-package com.example.PP_311_SpringBoot.config;
+package com.example.SpringBoot.config;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;

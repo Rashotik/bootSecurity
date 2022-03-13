@@ -1,7 +1,7 @@
-package com.example.PP_311_SpringBoot.service;
+package com.example.SpringBoot.service;
 
-import com.example.PP_311_SpringBoot.model.User;
-import com.example.PP_311_SpringBoot.repository.UserRepository;
+import com.example.SpringBoot.model.User;
+import com.example.SpringBoot.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

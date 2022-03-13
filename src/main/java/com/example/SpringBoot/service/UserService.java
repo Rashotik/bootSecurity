@@ -1,6 +1,6 @@
-package com.example.PP_311_SpringBoot.service;
+package com.example.SpringBoot.service;
 
-import com.example.PP_311_SpringBoot.model.User;
+import com.example.SpringBoot.model.User;
 import java.util.List;
 
 public interface UserService {

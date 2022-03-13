@@ -1,4 +1,4 @@
-package com.example.PP_311_SpringBoot.model;
+package com.example.SpringBoot.model;
 
 import java.util.List;
 

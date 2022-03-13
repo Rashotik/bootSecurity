@@ -1,6 +1,6 @@
-package com.example.PP_311_SpringBoot.repository;
+package com.example.SpringBoot.repository;
 
-import com.example.PP_311_SpringBoot.model.Role;
+import com.example.SpringBoot.model.Role;
 
 import java.util.List;
 import java.util.NoSuchElementException;

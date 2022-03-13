@@ -1,6 +1,6 @@
-package com.example.PP_311_SpringBoot.repository;
+package com.example.SpringBoot.repository;
 
-import com.example.PP_311_SpringBoot.model.User;
+import com.example.SpringBoot.model.User;
 
 import java.util.List;
 import java.util.Optional;

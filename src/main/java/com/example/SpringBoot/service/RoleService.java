@@ -1,6 +1,6 @@
-package com.example.PP_311_SpringBoot.service;
+package com.example.SpringBoot.service;
 
-import com.example.PP_311_SpringBoot.model.Role;
+import com.example.SpringBoot.model.Role;
 
 import java.util.List;
 

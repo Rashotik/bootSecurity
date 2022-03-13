@@ -1,13 +1,12 @@
-package com.example.PP_311_SpringBoot.repository;
+package com.example.SpringBoot.repository;
 
 import org.springframework.stereotype.Repository;
-import com.example.PP_311_SpringBoot.model.Role;
+import com.example.SpringBoot.model.Role;
 import org.springframework.transaction.annotation.Transactional;
 
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.NoSuchElementException;
 
