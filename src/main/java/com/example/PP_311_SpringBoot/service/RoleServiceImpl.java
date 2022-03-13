@@ -1,7 +1,7 @@
 package com.example.PP_311_SpringBoot.service;
 
-import com.example.PP_311_SpringBoot.dao.RoleDao;
 import com.example.PP_311_SpringBoot.model.Role;
+import com.example.PP_311_SpringBoot.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,11 +12,11 @@ import java.util.List;
 public class RoleServiceImpl implements RoleService{
 
     @Autowired
-    RoleDao roleDao;
+    RoleRepository roleDao;
 
     @Override
     public List<Role> getAll() {
-        return roleDao.getAll();
+        return roleDao.findAll();
     }
 
     @Override
@@ -25,7 +25,7 @@ public class RoleServiceImpl implements RoleService{
     }
 
     @Override
-    public List<Role> getByName(List<String> name) {
+    public List<Role> getByName(String name) {
         return roleDao.getByName(name);
     }
 
@@ -35,9 +35,4 @@ public class RoleServiceImpl implements RoleService{
         roleDao.save(role);
     }
 
-    @Override
-    @Transactional
-    public void deleteById(Long id) {
-        roleDao.deleteById(id);
-    }
 }

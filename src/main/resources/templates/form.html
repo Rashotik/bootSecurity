@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:with="lang=${#locale.language}" th:lang="${lang}">
+
+<head>
+    <title>Form</title>
+</head>
+
+<body>
+
+    <ul>
+        <li><a th:href="@{/}">Home</a></li>
+        <li><a th:href="@{/admin}">User list</a></li>
+    </ul>
+<div>
+    <form th:method="POST" th:action="@{__${#httpServletRequest.requestURI}__}" th:object="${userData}">
+        <input type="hidden" th:field="${user.id}" th:value="${user.getId()}">
+        <label for="name">Name</label>
+        <input type="text" id="name" th:field="${userData.name}" th:value="${userData.getName()}? ${userData.getName()}" placeholder="Enter user name" required>
+        <label for="lastname">Lastname</label>
+        <input type="text" id="lastname" th:field="${userData.lastName}" th:value="${userData.getLastName()}? ${userData.getName()}" placeholder="Enter user lastname" required>
+        <label for="Email">Email</label>
+        <input type="text" id="Email" th:field="${userData.email}" th:value="${userData.getEmail()}? ${userData.getName()}" placeholder="Enter user email" required>
+        <label for="password" th:value="${userData.getPassword()}" th:if="${#httpServletRequest.requestURI} == '/registration'">Password
+            <input type="password" id="password" th:field="${userData.password}">
+        </label>
+        <label for="roles" th:remove="${roleList}? none : all">Roles:</label>
+        <input th:remove="${roleList}? none : all"
+               id="roles" th:type="checkbox" th:name="roleList"
+               th:each="role : ${roleList}"
+               th:checked="${user.hasRole(role)}"
+               th:text="${role.name}"
+               th:value="${role.name}"
+               th:field="${userData.roles}"
+        />
+        <button type="submit" th:text="${user.getId()} ? 'Save' : 'Create'"/>
+        <a th:href="@{/admin}">Cancel</a>
+    </form>
+</div>
+</body>
+</html>

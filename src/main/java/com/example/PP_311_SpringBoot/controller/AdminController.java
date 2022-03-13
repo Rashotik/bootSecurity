@@ -1,75 +1,70 @@
 package com.example.PP_311_SpringBoot.controller;
 
-import com.example.PP_311_SpringBoot.converter.UserConverter;
-import com.example.PP_311_SpringBoot.dto.UserData;
+import com.example.PP_311_SpringBoot.model.UserData;
+import com.example.PP_311_SpringBoot.model.Role;
 import com.example.PP_311_SpringBoot.model.User;
 import com.example.PP_311_SpringBoot.service.RoleService;
 import com.example.PP_311_SpringBoot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Controller
-@RequestMapping("admin")
 public class AdminController {
-
-    private final UserService userService;
-    private final RoleService roleService;
-    private final UserConverter userConverter;
-
     @Autowired
-    public AdminController(UserService userService, RoleService roleService, UserConverter userConverter) {
-        this.userService = userService;
-        this.roleService = roleService;
-        this.userConverter = userConverter;
+    private UserService userService;
+    @Autowired
+    private RoleService roleService;
+
+    @GetMapping("/admin")
+    public String userList(Model model) {
+        model.addAttribute("allUsers", userService.getAll());
+        return "admin";
     }
 
-    @GetMapping()
-    public String index(Model model) {
-        model.addAttribute("users", userService.getAll());
-        return "index";
+
+    @GetMapping("/admin/get/{userId}")
+    public String  gtUser(@PathVariable("userId") Long userId, Model model) {
+        model.addAttribute("allUsers", userService.getById(userId));
+        return "admin";
     }
 
-    @GetMapping("users/{id}")
-    public String show(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("user", userService.getById(id));
-        return "show";
+    @GetMapping(value = "admin/new")
+    public String addUserForm(Model model) {
+        model.addAttribute("user", new User());
+        model.addAttribute("roleList", null);
+        model.addAttribute("userData", new UserData());
+        return "form";
     }
 
-    @GetMapping("users/new")
-    public String addUser(ModelMap modelMap){
-        modelMap.addAttribute("user", new User());
-        modelMap.addAttribute("roleList", roleService.getAll());
-        return "new";
+    @GetMapping("/admin/edit")
+    public String editUserForm(@RequestParam(value = "id", required = true) long id, Model model) {
+        User user = userService.getById(id);
+        model.addAttribute("user", user);
+        model.addAttribute("roleList", roleService.getAll());
+        model.addAttribute("userData", new UserData(
+                user.getName(),
+                user.getLastName(),
+                user.getPassword(),
+                user.getEmail()));
+        System.out.println(user.getEmail());
+        return "form";
     }
 
-    @PostMapping("users")
-    public String create(@ModelAttribute("user") UserData userData) {
-        User user = userConverter.convert(userData);
+    @PostMapping(value = "/admin/new")
+    public String saveUser(@ModelAttribute("user") User user) {
+        Set<Role> roles = new HashSet<>();
+        roles.add(new Role(1L, "ROLE_USER"));
+        user.setRoles(roles);
         userService.save(user);
         return "redirect:/admin";
     }
-
-    @GetMapping("users/{id}/edit")
-    public String edit(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("user", userService.getById(id));
-        model.addAttribute("roleList", roleService.getAll());
-        return "edit";
-    }
-
-    @PatchMapping("users/{id}")
-    public String update(@ModelAttribute("user") UserData userData,
-                         @PathVariable("id") Long id) {
-        User user = userConverter.convert(userData);
-        user.setId(id);
-        userService.update(user);
-        return "redirect:/admin";
-    }
-
-    @DeleteMapping("users/{id}")
-    public String delete(@PathVariable("id") Long id) {
+    @GetMapping("/admin/delete")
+    public String deleteUser(@RequestParam(value = "id", required = true, defaultValue = "") long id) {
         userService.deleteById(id);
         return "redirect:/admin";
     }

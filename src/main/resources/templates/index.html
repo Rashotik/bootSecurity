@@ -1,62 +1,16 @@
-<!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-    <meta charset="UTF-8">
-    <title>Все пользователи</title>
+  <title>Главная</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
-
-<h2>Admin panel</h2>
-
-<table border="1">
-    <thead>
-    <tr>
-        <th>User name</th>
-        <th>Last name</th>
-        <th>Email</th>
-        <th>Password</th>
-        <th>Roles</th>
-        <th>Edit</th>
-        <th>Delete</th>
-    </tr>
-    </thead>
-    <tbody>
-<!--    <tr th:if="${books.empty}">-->
-<!--        <td colspan="2"> No Books Available </td>-->
-<!--    </tr>-->
-    <tr th:each="user : ${users}">
-        <td><span th:text="${user.name}"> Name </span></td>
-        <td><span th:text="${user.lastName}"> Lastname </span></td>
-        <td><span th:text="${user.email}"> Email </span></td>
-        <td><span th:text="${user.password}"> Password </span> </td>
-        <td><div th:each="role : ${user.getRoles()}">
-            <a th:text="${role.getName()}">user</a>
-        </div></td>
-        <td><form th:method="GET" th:action="@{/admin/users/{id}/edit(id=${user.getId()})}">
-            <input type="submit" value="Edit"/>
-        </form></td>
-        <td><form th:method="DELETE" th:action="@{/admin/users/{id}(id=${user.getId()})}">
-            <input type="submit" value="Delete"/>
-        </form></td>
-    </tr>
-    </tbody>
-</table>
-
-
-<!--<a th:href="@{admin/users/{id}/edit(id=${user.getId()})}">Edit</a>-->
-
-<!--<form th:method="DELETE" th:action="@{admin/users/{id}(id=${user.getId()})}">-->
-<!--    <input type="submit" value="Delete"/>-->
-<!--</form>-->
-
-<br/>
-<hr/>
-
-<a href="/admin/users/new">Add new user</a>
-
-<form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="false">
-    <input type="submit" value="Logout"/>
-</form>
+<div sec:authorize="isAnonymous()">
+    <h4><a href="/login">Войти</a></h4>
+    <h4><a href="/registration">Зарегистрироваться</a></h4>
+</div>
+    <h4 sec:authorize="isAuthenticated()" th:fragment="out"><a href="/logout">Выйти</a></h4>
+  <h4><a href="/user">Страница пользователя (только пользователь)</a></h4>
+  <h4 sec:authorize="isAuthenticated()"><a href="/admin">Пользователи (только админ)</a></h4>
 </body>
 </html>

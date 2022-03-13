@@ -1,9 +1,9 @@
-package com.example.PP_311_SpringBoot.dto;
+package com.example.PP_311_SpringBoot.model;
 
 import java.util.List;
 
 public class UserData {
-
+    private Long id;
     private String name;
     private String lastName;
     private String email;
@@ -17,6 +17,14 @@ public class UserData {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {

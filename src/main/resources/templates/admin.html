@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+  <meta charset="utf-8">
+  <title>Admin panel</title>
+</head>
+
+<body>
+<div>
+  <table>
+    <thead>
+    <th>ID</th>
+    <th>User Name</th>
+    <th>User Last name</th>
+    <th>User Email</th>
+    <th>Roles</th>
+    </thead>
+    <tbody>
+      <tr th:each="user : ${allUsers}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.username}"></td>
+        <td th:text="${user.getLastName()}"></td>
+        <td th:text="${user.email}"></td>
+        <td>
+          <div th:each="role : ${user.roles}">
+            <b th:text="${role.name}"></b>
+          </div>
+        </td>
+        <td>
+          <a style="text-decoration: none;" type="button" th:href="@{/admin/edit(id=${user.getId()})}">Edit</a>
+        </td>
+        <td>
+          <a style="text-decoration: none;" type="button" th:href="@{/admin/delete(id=${user.getId()})}">Delete</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    <a th:href="${#mvc.url('AC#addUserForm').build()}">Create new user</a>
+  </p>
+  <p>
+    <a href="/">Главная</a>
+  </p>
+  <a th:replace="index.html :: out"></a>
+</div>
+</body>
+</html>
